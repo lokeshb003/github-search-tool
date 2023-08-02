@@ -1,0 +1,94 @@
+echo "Enter the Github username to get the Creation of the account information: "
+read github
+
+echo "What information do you want to know?"
+
+echo "1. Github Creation Info"
+echo "2. Github Account Id"
+echo "3. Github Account node id"
+echo "4. Github Avatar Pic"
+echo "5. Github Html Url"
+echo "6. Github Followers Url"
+echo "7. Github Following Url"
+echo "8. Github Gists Url"
+echo "9. Github Repos url"
+echo "10. Github User's name"
+echo "11. Github Email ( May/May not contain )"
+echo "12. Github Account Bio"
+echo "13. Twitter Username ( May/May not contain )"
+echo "14. Github Account Public Repos Count"
+echo "15. Github Followers count"
+echo "16 Github Following count"
+echo "17. Github last updated Time"
+
+read option
+
+case $option in
+
+  1)
+    echo "The Account was Created at: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.created_at')"
+    ;;
+  2)
+    echo "The Account ID: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.id')"
+    ;;
+  3)
+    echo "The Account Node ID: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.node_id')"
+    ;;
+  4)
+    echo "The Account Picture Url is: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.avatar_url')"
+    ;;
+  5)
+    echo "The Account URL is: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.html_url')"
+    ;;
+  6)
+    echo "The Account Followers Page Url is: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.followers_url')"
+    ;;
+  7)
+    echo "The Account Following Page Url is: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.following_url')"
+    ;;
+  8)
+    echo "The Account Gists page: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.gists_url')"
+    ;;
+  9)
+    echo "The Account Repos Page: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.repos_url')"
+    ;;
+  10)
+    echo "Github Account Username: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.login')"
+    ;;
+  11)
+    EMAIL=$(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.email')
+    if [ "$EMAIL" == "null" ]; then
+      echo "No email address Found"
+    else
+      echo "The Account Email Address is: $EMAIL"
+    fi
+    ;;
+  12)
+    BIO=$(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.bio')
+    if ["$BIO" == "null" ]; then
+      echo "No Bio Found"
+    else
+      echo "The Account Bio is: $BIO"
+    fi
+    ;;
+  13)
+    TWITTER=$(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.twitter_username')
+    if [ "TWITTER" == "null" ]; then
+      echo "No Twitter Username Found"
+    else
+      echo "The Twitter Username is: $TWITTER"
+    fi
+    ;;
+  14)
+    echo "Account Public Repositories Count: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.public_repos')"
+    ;;
+  15)
+    echo "Account Followers Count: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.followers')"
+    ;;
+  16)
+    echo "Account Following Count: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.following')"
+    ;;
+  17)
+    echo "Account Last Updated: $(curl -fsSL -X GET https://api.github.com/users/$github | jq -r '.updated_at')"
+    ;;
+esac
